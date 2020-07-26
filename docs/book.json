@@ -1,0 +1,29 @@
+{
+    "bookname": "Alex LeetCode Journey",
+    "author" : "Alex Chen",
+    "title" : "Alex LeetCode Journey",
+    "description" : "Alex LeetCode Journey",
+    "plugins": [
+        "github",
+        "theme-comscore",
+        "summary",
+        "chapter-fold",
+        "hide-element",
+        "back-to-top-button",
+        "code",
+        "splitter",
+        "-lunr",
+        "-search",
+        "search-pro",
+        "pageview-count",
+        "klipse"
+    ],
+    "pluginsConfig": {
+        "github": {
+            "url": "https://github.com/chen-star/Alex-Leetcode-Journey"
+        },
+        "hide-element": {
+            "elements": [".gitbook-link"]
+        }
+    }
+}

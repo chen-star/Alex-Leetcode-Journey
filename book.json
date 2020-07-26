@@ -1,6 +1,9 @@
 {
-  "plugins": ["summary"],
-  "plugins": [ "github" ],
+    "root" : "docs",
+    "author" : "Alex Chen",
+    "title" : "Alex LeetCode Journey",
+    "description" : "Alex LeetCode Journey",
+    "plugins": [ "github", "theme-comscore"],
     "pluginsConfig": {
         "github": {
             "url": "https://github.com/chen-star/Alex-Leetcode-Journey"
