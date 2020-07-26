@@ -1,0 +1,9 @@
+{
+  "plugins": ["summary"],
+  "plugins": [ "github" ],
+    "pluginsConfig": {
+        "github": {
+            "url": "https://github.com/chen-star/Alex-Leetcode-Journey"
+        }
+    }
+}
