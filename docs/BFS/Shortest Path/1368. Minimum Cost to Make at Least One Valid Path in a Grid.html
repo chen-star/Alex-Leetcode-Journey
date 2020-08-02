@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>dfsd · Alex LeetCode Journey</title>
+        <title>1368. Minimum Cost to Make at Least One Valid Path in a Grid · Alex LeetCode Journey</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -81,10 +81,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../Heap/" />
+    <link rel="next" href="743. Network Delay Time.html" />
     
     
-    <link rel="prev" href="./" />
+    <link rel="prev" href="1293. Shortest Path in a Grid with Obstacles Elimination.html" />
     
 
     </head>
@@ -126,9 +126,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="../../BFS/">
+        <li class="chapter " data-level="1.2" data-path="../">
             
-                <a href="../../BFS/">
+                <a href="../">
             
                     
                     BFS
@@ -139,9 +139,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="../../BFS/Shortest Path/">
+        <li class="chapter " data-level="1.3" data-path="./">
             
-                <a href="../../BFS/Shortest Path/">
+                <a href="./">
             
                     
                     Shortest Path
@@ -153,9 +153,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="../../BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.html">
+        <li class="chapter " data-level="1.3.1" data-path="1293. Shortest Path in a Grid with Obstacles Elimination.html">
             
-                <a href="../../BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.html">
+                <a href="1293. Shortest Path in a Grid with Obstacles Elimination.html">
             
                     
                     1293. Shortest Path in a Grid with Obstacles Elimination
@@ -166,9 +166,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.2" data-path="../../BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
+        <li class="chapter active" data-level="1.3.2" data-path="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
             
-                <a href="../../BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
+                <a href="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
             
                     
                     1368. Minimum Cost to Make at Least One Valid Path in a Grid
@@ -179,9 +179,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.3" data-path="../../BFS/Shortest Path/743. Network Delay Time.html">
+        <li class="chapter " data-level="1.3.3" data-path="743. Network Delay Time.html">
             
-                <a href="../../BFS/Shortest Path/743. Network Delay Time.html">
+                <a href="743. Network Delay Time.html">
             
                     
                     743. Network Delay Time
@@ -197,9 +197,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../">
+        <li class="chapter " data-level="1.4" data-path="../../DFS/">
             
-                <a href="../">
+                <a href="../../DFS/">
             
                     
                     DFS
@@ -210,9 +210,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../../DFS/Shortest Path/">
             
-                <a href="./">
+                <a href="../../DFS/Shortest Path/">
             
                     
                     Shortest Path
@@ -224,9 +224,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.5.1" data-path="dfsd.html">
+        <li class="chapter " data-level="1.5.1" data-path="../../DFS/Shortest Path/dfsd.html">
             
-                <a href="dfsd.html">
+                <a href="../../DFS/Shortest Path/dfsd.html">
             
                     
                     dfsd
@@ -369,7 +369,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >dfsd</a>
+        <a href="../.." >1368. Minimum Cost to Make at Least One Valid Path in a Grid</a>
     </h1>
 </div>
 
@@ -384,7 +384,56 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="dfsd">dfsd</h1>
+                                <h1 id="1368-minimum-cost-to-make-at-least-one-valid-path-in-a-grid">1368. Minimum Cost to Make at Least One Valid Path in a Grid</h1>
+<h3 id="thoughts">Thoughts</h3>
+<p>Standard Dijkstra </p>
+<h3 id="code">Code</h3>
+<pre><code class="lang-java">
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">minCost</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] grid)</span> </span>{
+        <span class="hljs-keyword">int</span> m = grid.length;
+        <span class="hljs-keyword">if</span> (m == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> n = grid[<span class="hljs-number">0</span>].length;
+        <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span>[] dx = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>};
+        <span class="hljs-keyword">int</span>[] dy = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>};
+
+        Queue&lt;State&gt; q = <span class="hljs-keyword">new</span> PriorityQueue&lt;State&gt;((s1, s2) -&gt; {
+            <span class="hljs-keyword">return</span> s1.cost - s2.cost;
+        });
+        q.offer(<span class="hljs-keyword">new</span> State(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>));
+        <span class="hljs-keyword">boolean</span>[][] visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[m][n];
+
+        <span class="hljs-keyword">while</span> (!q.isEmpty()) {
+            State cur = q.poll();
+            <span class="hljs-keyword">if</span> (visited[cur.x][cur.y]) <span class="hljs-keyword">continue</span>;
+            visited[cur.x][cur.y] = <span class="hljs-keyword">true</span>;
+            <span class="hljs-keyword">if</span> (cur.x == m - <span class="hljs-number">1</span> &amp;&amp; cur.y == n - <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> cur.cost;
+
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">1</span>; k &lt;= <span class="hljs-number">4</span>; k++) {
+                <span class="hljs-keyword">int</span> nx = cur.x + dx[k], ny = cur.y + dy[k];
+                <span class="hljs-keyword">if</span> (nx &lt; <span class="hljs-number">0</span> || ny &lt; <span class="hljs-number">0</span> || nx &gt;= m || ny &gt;= n) <span class="hljs-keyword">continue</span>;
+                <span class="hljs-keyword">if</span> (visited[nx][ny]) <span class="hljs-keyword">continue</span>;
+                <span class="hljs-keyword">int</span> cost = grid[cur.x][cur.y] == k ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span>;
+                q.offer(<span class="hljs-keyword">new</span> State(nx, ny, cost + cur.cost));
+            }
+        }
+
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">State</span> </span>{
+        <span class="hljs-keyword">int</span> x, y;
+        <span class="hljs-keyword">int</span> cost;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">State</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">int</span> cost)</span> </span>{
+            <span class="hljs-keyword">this</span>.x = x;
+            <span class="hljs-keyword">this</span>.y = y;
+            <span class="hljs-keyword">this</span>.cost = cost;
+        }
+    }
+}
+</code></pre>
  <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css"> <script>     window.klipse_settings = {         selector: ".language-klipse, .lang-eval-clojure",         selector_eval_js: ".lang-eval-js",         selector_eval_python_client: ".lang-eval-python",         selector_eval_php: ".lang-eval-php",         selector_eval_scheme: ".lang-eval-scheme",         selector_eval_ruby: ".lang-eval-ruby",         selector_reagent: ".lang-reagent",        selector_google_charts: ".lang-google-chart",        selector_es2017: ".lang-eval-es2017",        selector_jsx: ".lang-eval-jsx",        selector_transpile_jsx: ".lang-transpile-jsx",        selector_render_jsx: ".lang-render-jsx",        selector_react: ".lang-react",        selector_eval_markdown: ".lang-render-markdown",        selector_eval_lambdaway: ".lang-render-lambdaway",        selector_eval_cpp: ".lang-eval-cpp",        selector_eval_html: ".lang-render-html",        selector_sql: ".lang-eval-sql",        selector_brainfuck: "lang-eval-brainfuck",        selector_js: ".lang-transpile-cljs"    }; </script> <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
                                 
                                 </section>
@@ -412,12 +461,12 @@
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Shortest Path">
+                <a href="1293. Shortest Path in a Grid with Obstacles Elimination.html" class="navigation navigation-prev " aria-label="Previous page: 1293. Shortest Path in a Grid with Obstacles Elimination">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../../Heap/" class="navigation navigation-next " aria-label="Next page: Heap">
+                <a href="743. Network Delay Time.html" class="navigation navigation-next " aria-label="Next page: 743. Network Delay Time">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -428,7 +477,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"dfsd","level":"1.5.1","depth":2,"next":{"title":"Heap","level":"1.6","depth":1,"path":"Heap/README.md","ref":"Heap/README.md","articles":[]},"previous":{"title":"Shortest Path","level":"1.5","depth":1,"path":"DFS/Shortest Path/README.md","ref":"DFS/Shortest Path/README.md","articles":[{"title":"dfsd","level":"1.5.1","depth":2,"path":"DFS/Shortest Path/dfsd.md","ref":"DFS/Shortest Path/dfsd.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["github","theme-comscore","summary","chapter-fold","hide-element","back-to-top-button","code","splitter","-lunr","-search","search-pro","pageview-count","klipse"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"github":{"url":"https://github.com/chen-star/Alex-Leetcode-Journey"},"summary":{},"splitter":{},"search-pro":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"back-to-top-button":{},"pageview-count":{},"klipse":{"myConfigKey":"it's the default value"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Alex Chen","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bookname":"Alex LeetCode Journey","variables":{},"title":"Alex LeetCode Journey","gitbook":"*","description":"Alex LeetCode Journey"},"file":{"path":"DFS/Shortest Path/dfsd.md","mtime":"2020-08-02T01:56:01.585Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-02T01:56:04.597Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"1368. Minimum Cost to Make at Least One Valid Path in a Grid","level":"1.3.2","depth":2,"next":{"title":"743. Network Delay Time","level":"1.3.3","depth":2,"path":"BFS/Shortest Path/743. Network Delay Time.md","ref":"BFS/Shortest Path/743. Network Delay Time.md","articles":[]},"previous":{"title":"1293. Shortest Path in a Grid with Obstacles Elimination","level":"1.3.1","depth":2,"path":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","ref":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","theme-comscore","summary","chapter-fold","hide-element","back-to-top-button","code","splitter","-lunr","-search","search-pro","pageview-count","klipse"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"github":{"url":"https://github.com/chen-star/Alex-Leetcode-Journey"},"summary":{},"splitter":{},"search-pro":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"back-to-top-button":{},"pageview-count":{},"klipse":{"myConfigKey":"it's the default value"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Alex Chen","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bookname":"Alex LeetCode Journey","variables":{},"title":"Alex LeetCode Journey","gitbook":"*","description":"Alex LeetCode Journey"},"file":{"path":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","mtime":"2020-07-27T06:39:29.135Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-02T01:56:04.597Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

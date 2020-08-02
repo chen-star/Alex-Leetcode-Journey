@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Shortest Path · Alex LeetCode Journey</title>
+        <title>1293. Shortest Path in a Grid with Obstacles Elimination · Alex LeetCode Journey</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -81,10 +81,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="1293. Shortest Path in a Grid with Obstacles Elimination.html" />
+    <link rel="next" href="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html" />
     
     
-    <link rel="prev" href="../" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -139,7 +139,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.3" data-path="./">
+        <li class="chapter " data-level="1.3" data-path="./">
             
                 <a href="./">
             
@@ -153,7 +153,7 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="1293. Shortest Path in a Grid with Obstacles Elimination.html">
+        <li class="chapter active" data-level="1.3.1" data-path="1293. Shortest Path in a Grid with Obstacles Elimination.html">
             
                 <a href="1293. Shortest Path in a Grid with Obstacles Elimination.html">
             
@@ -369,7 +369,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Shortest Path</a>
+        <a href="../.." >1293. Shortest Path in a Grid with Obstacles Elimination</a>
     </h1>
 </div>
 
@@ -384,119 +384,101 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h2 id="dijkstra">Dijkstra</h2>
-<hr>
-<h3 id="overview">Overview</h3>
-<ul>
-<li><p>Target:</p>
-<ul>
-<li>The shortest paths from one node to all others in the graph.</li>
-</ul>
-</li>
-<li><p>Assumption:</p>
-<ul>
-<li>The cost of each edge cannot be negative</li>
-</ul>
-</li>
-<li><p>Note:</p>
-<ul>
-<li><p>For one node, it can be <code>pushed</code> into queue multiple times (ie. The same node with different costs can exists in queue)</p>
-<ul>
-<li>As such, dedup should be at the time of <code>pop</code> </li>
-</ul>
-</li>
-<li><p>From the whole graph point of view, all nodes popped out in increasing order. (ie. could be used to sort in some format)</p>
-</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h3 id="template">Template</h3>
-<ul>
-<li><p>Time Complexity: <code>O(NlgN)</code></p>
-</li>
-<li><p>Space Complexity: <code>O(N)</code></p>
-</li>
-</ul>
+                                <h1 id="1293-shortest-path-in-a-grid-with-obstacles-elimination">1293. Shortest Path in a Grid with Obstacles Elimination</h1>
+<h3 id="thoughts">Thoughts</h3>
+<p>Method 1: Standard Dijkstra + 3-dimension as visited</p>
+<p>Method 2: Standard Queue + 3-dimension as visited</p>
+<p>Method 3: Level Order + 3-dimension as visited</p>
+<h3 id="code">Code</h3>
 <h4 id="version-1">Version 1</h4>
-<p>HashSet</p>
+<ul>
+<li>Dijkstra</li>
+</ul>
 <pre><code class="lang-java">
-    <span class="hljs-comment">/**
-     * times[i]: {u, v, cost} 
-     * N: The total # of nodes
-     * K: Source node
-     */</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">minDistFromKToAll</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] times, <span class="hljs-keyword">int</span> N, <span class="hljs-keyword">int</span> K)</span> </span>{
-        <span class="hljs-comment">// construct graph</span>
-        <span class="hljs-comment">// key: u, value: Pair (v, cost)</span>
-        Map&lt;Integer, List&lt;Pair&gt;&gt; graph = constructGraph(times, N);
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">shortestPath</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] grid, <span class="hljs-keyword">int</span> k)</span> </span>{
+        <span class="hljs-keyword">int</span> m = grid.length;
+        <span class="hljs-keyword">if</span> (m == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">int</span> n = grid[<span class="hljs-number">0</span>].length;
+        <span class="hljs-keyword">if</span> (n == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span> (grid[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] == <span class="hljs-number">1</span> &amp;&amp; k == <span class="hljs-number">0</span>) <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span>[] dx = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>};
+        <span class="hljs-keyword">int</span>[] dy = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]{<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,-<span class="hljs-number">1</span>};
 
-        <span class="hljs-comment">// init minHeap &amp; visited nodes set</span>
-        Queue&lt;Pair&gt; minHeap = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((p1, p2) -&gt; {
-            <span class="hljs-keyword">return</span> p1.cost - p2.cost;
+        Queue&lt;State&gt; minHeap = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((s1, s2) -&gt; {
+            <span class="hljs-keyword">int</span> disDiff = s1.dist - s2.dist;
+            <span class="hljs-keyword">if</span> (disDiff == <span class="hljs-number">0</span>) {
+                <span class="hljs-keyword">return</span> s2.k - s1.k;
+            }
+            <span class="hljs-keyword">return</span> disDiff;
         });
-        minHeap.offer(<span class="hljs-keyword">new</span> Pair(K, <span class="hljs-number">0</span>));
-        Set&lt;Integer&gt; visited = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();
+        minHeap.offer(<span class="hljs-keyword">new</span> State(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,k - grid[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]));
+        <span class="hljs-keyword">boolean</span>[][][] visited = <span class="hljs-keyword">new</span> <span class="hljs-keyword">boolean</span>[m][n][k + <span class="hljs-number">1</span>];
 
-        <span class="hljs-comment">// visit every node in the graph</span>
-        <span class="hljs-comment">// every time a node is popped up, the cost (from source to this node) is </span>
-        <span class="hljs-comment">// the shortest path for this node</span>
-        <span class="hljs-keyword">int</span> maxTime = <span class="hljs-number">0</span>;
         <span class="hljs-keyword">while</span> (!minHeap.isEmpty()) {
-            Pair cur = minHeap.poll();
-            <span class="hljs-comment">// we might add a node multiple times</span>
-            <span class="hljs-comment">// only the first time counts</span>
-            <span class="hljs-keyword">if</span> (!visited.add(cur.id)) <span class="hljs-keyword">continue</span>;
-            maxTime = cur.cost;
+            State cur = minHeap.poll();
+            <span class="hljs-keyword">int</span> x = cur.x, y = cur.y, dist = cur.dist, remainK = cur.k;
+            <span class="hljs-keyword">if</span> (x == m - <span class="hljs-number">1</span> &amp;&amp; y == n - <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> dist;
+            <span class="hljs-keyword">if</span> (visited[x][y][remainK]) <span class="hljs-keyword">continue</span>;
+            visited[x][y][remainK] = <span class="hljs-keyword">true</span>;
 
-            <span class="hljs-keyword">for</span> (Pair next : graph.get(cur.id)) {
-                <span class="hljs-comment">// visited.contains(next.id) means</span>
-                <span class="hljs-comment">// the shortest dist from K to next is calculated</span>
-                <span class="hljs-keyword">if</span> (visited.contains(next.id)) <span class="hljs-keyword">continue</span>;
-                minHeap.offer(<span class="hljs-keyword">new</span> Pair(next.id, cur.cost + next.cost));
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">4</span>; i++) {
+                <span class="hljs-keyword">int</span> nx = x + dx[i], ny = y + dy[i];
+                <span class="hljs-keyword">if</span> (nx &lt; <span class="hljs-number">0</span> || ny &lt; <span class="hljs-number">0</span> || nx &gt;= m || ny &gt;= n) <span class="hljs-keyword">continue</span>;
+                <span class="hljs-keyword">if</span> (grid[nx][ny] == <span class="hljs-number">1</span> &amp;&amp; remainK == <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;
+                <span class="hljs-keyword">if</span> (visited[nx][ny][remainK - grid[nx][ny]]) <span class="hljs-keyword">continue</span>;
+                minHeap.offer(<span class="hljs-keyword">new</span> State(nx, ny, dist + <span class="hljs-number">1</span>, remainK - grid[nx][ny]));
             }
         }
 
-        <span class="hljs-keyword">return</span> visited.size() == N ? maxTime : -<span class="hljs-number">1</span>;
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>;
     }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">State</span> </span>{
+        <span class="hljs-keyword">int</span> x, y;
+        <span class="hljs-keyword">int</span> dist;
+        <span class="hljs-keyword">int</span> k;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">State</span><span class="hljs-params">(<span class="hljs-keyword">int</span> x, <span class="hljs-keyword">int</span> y, <span class="hljs-keyword">int</span> d, <span class="hljs-keyword">int</span> k)</span> </span>{
+            <span class="hljs-keyword">this</span>.x = x;
+            <span class="hljs-keyword">this</span>.y = y;
+            <span class="hljs-keyword">this</span>.dist = d;
+            <span class="hljs-keyword">this</span>.k = k;
+        }
+    }
+}
 </code></pre>
 <h4 id="version-2">Version 2</h4>
-<p>Dist array</p>
+<ul>
+<li>Standard Queue</li>
+</ul>
 <pre><code class="lang-java">
-    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">minDistFromKToAll</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] times, <span class="hljs-keyword">int</span> N, <span class="hljs-keyword">int</span> K)</span> </span>{
-        <span class="hljs-comment">// construct graph</span>
-        <span class="hljs-comment">// key: u, value: Pair (v, cost)</span>
-        Map&lt;Integer, List&lt;Pair&gt;&gt; graph = constructGraph(times, N);
+Queue&lt;State&gt; queue = <span class="hljs-keyword">new</span> LinkedList&lt;&gt;();
+</code></pre>
+<h4 id="version-3">Version 3</h4>
+<ul>
+<li>Level Order (dont need to record step)</li>
+</ul>
+<pre><code class="lang-java">
+        <span class="hljs-keyword">int</span> step = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (!queue.isEmpty()) {
+            <span class="hljs-keyword">int</span> size = queue.isEmpty();
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; size; i++) {
+                State cur = queue.poll();
+                <span class="hljs-keyword">int</span> x = cur.x, y = cur.y, remainK = cur.k;
+                <span class="hljs-keyword">if</span> (x == m - <span class="hljs-number">1</span> &amp;&amp; y == n - <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> step;
+                <span class="hljs-keyword">if</span> (visited[x][y][remainK]) <span class="hljs-keyword">continue</span>;
+                visited[x][y][remainK] = <span class="hljs-keyword">true</span>;
 
-        <span class="hljs-comment">// init minHeap &amp; visited nodes set</span>
-        Queue&lt;Pair&gt; minHeap = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((p1, p2) -&gt; {
-            <span class="hljs-keyword">return</span> p1.cost - p2.cost;
-        });
-        minHeap.offer(<span class="hljs-keyword">new</span> Pair(K, <span class="hljs-number">0</span>));
-        <span class="hljs-keyword">int</span>[] dist = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[N + <span class="hljs-number">1</span>];
-        Arrays.fill(dist, Integer.MAX_VALUE);
-
-        <span class="hljs-comment">// visit every node in the graph</span>
-        <span class="hljs-comment">// every time a node is popped up, the cost (from source to this node) is </span>
-        <span class="hljs-comment">// the shortest path for this node</span>
-        <span class="hljs-keyword">int</span> maxTime = <span class="hljs-number">0</span>;
-        <span class="hljs-keyword">while</span> (!minHeap.isEmpty()) {
-            Pair cur = minHeap.poll();
-            <span class="hljs-comment">// the dist has been updated</span>
-            <span class="hljs-keyword">if</span> (dist[cur.id] != Integer.MAX_VALUE) <span class="hljs-keyword">continue</span>;
-            dist[cur.id] = cur.cost;
-            maxTime = cur.cost;
-
-            <span class="hljs-keyword">for</span> (Pair next : graph.get(cur.id)) {
-                <span class="hljs-keyword">if</span> (dist[next.id] != Integer.MAX_VALUE) <span class="hljs-keyword">continue</span>;
-                minHeap.offer(<span class="hljs-keyword">new</span> Pair(next.id, cur.cost + next.cost));
+                <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">4</span>; j++) {
+                    <span class="hljs-keyword">int</span> nx = x + dx[j], ny = y + dy[j];
+                    <span class="hljs-keyword">if</span> (nx &lt; <span class="hljs-number">0</span> || ny &lt; <span class="hljs-number">0</span> || nx &gt;= m || ny &gt;= n) <span class="hljs-keyword">continue</span>;
+                    <span class="hljs-keyword">if</span> (grid[nx][ny] == <span class="hljs-number">1</span> &amp;&amp; remainK == <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>;
+                    <span class="hljs-keyword">if</span> (visited[nx][ny][remainK - grid[nx][ny]]) <span class="hljs-keyword">continue</span>;
+                    queue.offer(<span class="hljs-keyword">new</span> State(nx, ny, remainK - grid[nx][ny]));
+                }
             }
-        }
-
-        <span class="hljs-keyword">return</span> Arrays.stream(dist)
-                    .filter(d -&gt; d == Integer.MAX_VALUE)
-                    .count() == <span class="hljs-number">1</span> ? maxTime : -<span class="hljs-number">1</span>;
-    }
+         }
 </code></pre>
  <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css"> <script>     window.klipse_settings = {         selector: ".language-klipse, .lang-eval-clojure",         selector_eval_js: ".lang-eval-js",         selector_eval_python_client: ".lang-eval-python",         selector_eval_php: ".lang-eval-php",         selector_eval_scheme: ".lang-eval-scheme",         selector_eval_ruby: ".lang-eval-ruby",         selector_reagent: ".lang-reagent",        selector_google_charts: ".lang-google-chart",        selector_es2017: ".lang-eval-es2017",        selector_jsx: ".lang-eval-jsx",        selector_transpile_jsx: ".lang-transpile-jsx",        selector_render_jsx: ".lang-render-jsx",        selector_react: ".lang-react",        selector_eval_markdown: ".lang-render-markdown",        selector_eval_lambdaway: ".lang-render-lambdaway",        selector_eval_cpp: ".lang-eval-cpp",        selector_eval_html: ".lang-render-html",        selector_sql: ".lang-eval-sql",        selector_brainfuck: "lang-eval-brainfuck",        selector_js: ".lang-transpile-cljs"    }; </script> <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
                                 
@@ -525,12 +507,12 @@
 
             
                 
-                <a href="../" class="navigation navigation-prev " aria-label="Previous page: BFS">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Shortest Path">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="1293. Shortest Path in a Grid with Obstacles Elimination.html" class="navigation navigation-next " aria-label="Next page: 1293. Shortest Path in a Grid with Obstacles Elimination">
+                <a href="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html" class="navigation navigation-next " aria-label="Next page: 1368. Minimum Cost to Make at Least One Valid Path in a Grid">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -541,7 +523,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Shortest Path","level":"1.3","depth":1,"next":{"title":"1293. Shortest Path in a Grid with Obstacles Elimination","level":"1.3.1","depth":2,"path":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","ref":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","articles":[]},"previous":{"title":"BFS","level":"1.2","depth":1,"path":"BFS/README.md","ref":"BFS/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","theme-comscore","summary","chapter-fold","hide-element","back-to-top-button","code","splitter","-lunr","-search","search-pro","pageview-count","klipse"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"github":{"url":"https://github.com/chen-star/Alex-Leetcode-Journey"},"summary":{},"splitter":{},"search-pro":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"back-to-top-button":{},"pageview-count":{},"klipse":{"myConfigKey":"it's the default value"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Alex Chen","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bookname":"Alex LeetCode Journey","variables":{},"title":"Alex LeetCode Journey","gitbook":"*","description":"Alex LeetCode Journey"},"file":{"path":"BFS/Shortest Path/README.md","mtime":"2020-07-26T20:50:54.964Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-02T01:56:04.597Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"1293. Shortest Path in a Grid with Obstacles Elimination","level":"1.3.1","depth":2,"next":{"title":"1368. Minimum Cost to Make at Least One Valid Path in a Grid","level":"1.3.2","depth":2,"path":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","ref":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","articles":[]},"previous":{"title":"Shortest Path","level":"1.3","depth":1,"path":"BFS/Shortest Path/README.md","ref":"BFS/Shortest Path/README.md","articles":[{"title":"1293. Shortest Path in a Grid with Obstacles Elimination","level":"1.3.1","depth":2,"path":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","ref":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","articles":[]},{"title":"1368. Minimum Cost to Make at Least One Valid Path in a Grid","level":"1.3.2","depth":2,"path":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","ref":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","articles":[]},{"title":"743. Network Delay Time","level":"1.3.3","depth":2,"path":"BFS/Shortest Path/743. Network Delay Time.md","ref":"BFS/Shortest Path/743. Network Delay Time.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["github","theme-comscore","summary","chapter-fold","hide-element","back-to-top-button","code","splitter","-lunr","-search","search-pro","pageview-count","klipse"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"github":{"url":"https://github.com/chen-star/Alex-Leetcode-Journey"},"summary":{},"splitter":{},"search-pro":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"back-to-top-button":{},"pageview-count":{},"klipse":{"myConfigKey":"it's the default value"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Alex Chen","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bookname":"Alex LeetCode Journey","variables":{},"title":"Alex LeetCode Journey","gitbook":"*","description":"Alex LeetCode Journey"},"file":{"path":"BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.md","mtime":"2020-07-26T22:50:07.111Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-02T01:56:04.597Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>

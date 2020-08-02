@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>dfsd · Alex LeetCode Journey</title>
+        <title>743. Network Delay Time · Alex LeetCode Journey</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -81,10 +81,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../../Heap/" />
+    <link rel="next" href="../../DFS/" />
     
     
-    <link rel="prev" href="./" />
+    <link rel="prev" href="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html" />
     
 
     </head>
@@ -126,9 +126,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.2" data-path="../../BFS/">
+        <li class="chapter " data-level="1.2" data-path="../">
             
-                <a href="../../BFS/">
+                <a href="../">
             
                     
                     BFS
@@ -139,9 +139,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="../../BFS/Shortest Path/">
+        <li class="chapter " data-level="1.3" data-path="./">
             
-                <a href="../../BFS/Shortest Path/">
+                <a href="./">
             
                     
                     Shortest Path
@@ -153,9 +153,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.3.1" data-path="../../BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.html">
+        <li class="chapter " data-level="1.3.1" data-path="1293. Shortest Path in a Grid with Obstacles Elimination.html">
             
-                <a href="../../BFS/Shortest Path/1293. Shortest Path in a Grid with Obstacles Elimination.html">
+                <a href="1293. Shortest Path in a Grid with Obstacles Elimination.html">
             
                     
                     1293. Shortest Path in a Grid with Obstacles Elimination
@@ -166,9 +166,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.2" data-path="../../BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
+        <li class="chapter " data-level="1.3.2" data-path="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
             
-                <a href="../../BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
+                <a href="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html">
             
                     
                     1368. Minimum Cost to Make at Least One Valid Path in a Grid
@@ -179,9 +179,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3.3" data-path="../../BFS/Shortest Path/743. Network Delay Time.html">
+        <li class="chapter active" data-level="1.3.3" data-path="743. Network Delay Time.html">
             
-                <a href="../../BFS/Shortest Path/743. Network Delay Time.html">
+                <a href="743. Network Delay Time.html">
             
                     
                     743. Network Delay Time
@@ -197,9 +197,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4" data-path="../">
+        <li class="chapter " data-level="1.4" data-path="../../DFS/">
             
-                <a href="../">
+                <a href="../../DFS/">
             
                     
                     DFS
@@ -210,9 +210,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../../DFS/Shortest Path/">
             
-                <a href="./">
+                <a href="../../DFS/Shortest Path/">
             
                     
                     Shortest Path
@@ -224,9 +224,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.5.1" data-path="dfsd.html">
+        <li class="chapter " data-level="1.5.1" data-path="../../DFS/Shortest Path/dfsd.html">
             
-                <a href="dfsd.html">
+                <a href="../../DFS/Shortest Path/dfsd.html">
             
                     
                     dfsd
@@ -369,7 +369,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >dfsd</a>
+        <a href="../.." >743. Network Delay Time</a>
     </h1>
 </div>
 
@@ -384,7 +384,106 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="dfsd">dfsd</h1>
+                                <h1 id="743-network-delay-time">743. Network Delay Time</h1>
+<h3 id="thoughts">Thoughts</h3>
+<p>Standard Dijkstra </p>
+<h3 id="code">Code</h3>
+<h4 id="version-1">Version 1</h4>
+<p>HashSet</p>
+<pre><code class="lang-java">
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">networkDelayTime</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] times, <span class="hljs-keyword">int</span> N, <span class="hljs-keyword">int</span> K)</span> </span>{
+        <span class="hljs-comment">// construct graph</span>
+        <span class="hljs-comment">// key: u, value: Pair (v, cost)</span>
+        Map&lt;Integer, List&lt;Pair&gt;&gt; graph = constructGraph(times, N);
+
+        <span class="hljs-comment">// init minHeap &amp; visited nodes set</span>
+        Queue&lt;Pair&gt; minHeap = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((p1, p2) -&gt; {
+            <span class="hljs-keyword">return</span> p1.cost - p2.cost;
+        });
+        minHeap.offer(<span class="hljs-keyword">new</span> Pair(K, <span class="hljs-number">0</span>));
+        Set&lt;Integer&gt; visited = <span class="hljs-keyword">new</span> HashSet&lt;&gt;();
+
+        <span class="hljs-comment">// visit every node in the graph</span>
+        <span class="hljs-comment">// every time a node is popped up, the cost (from source to this node) is </span>
+        <span class="hljs-comment">// the shortest path for this node</span>
+        <span class="hljs-keyword">int</span> maxTime = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (!minHeap.isEmpty()) {
+            Pair cur = minHeap.poll();
+            <span class="hljs-keyword">if</span> (!visited.add(cur.id)) <span class="hljs-keyword">continue</span>;
+            maxTime = cur.cost;
+
+            <span class="hljs-keyword">for</span> (Pair next : graph.get(cur.id)) {
+                <span class="hljs-keyword">if</span> (visited.contains(next.id)) <span class="hljs-keyword">continue</span>;
+                minHeap.offer(<span class="hljs-keyword">new</span> Pair(next.id, cur.cost + next.cost));
+            }
+        }
+
+        <span class="hljs-keyword">return</span> visited.size() == N ? maxTime : -<span class="hljs-number">1</span>;
+    }
+
+    <span class="hljs-keyword">private</span> Map&lt;Integer, List&lt;Pair&gt;&gt; constructGraph(<span class="hljs-keyword">int</span>[][] times, <span class="hljs-keyword">int</span> N) {
+        Map&lt;Integer, List&lt;Pair&gt;&gt; graph = <span class="hljs-keyword">new</span> HashMap&lt;&gt;();
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt;= N; i++) {
+            graph.put(i, <span class="hljs-keyword">new</span> ArrayList&lt;&gt;());
+        }
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span>[] t : times) {
+            graph.get(t[<span class="hljs-number">0</span>]).add(<span class="hljs-keyword">new</span> Pair(t[<span class="hljs-number">1</span>], t[<span class="hljs-number">2</span>]));
+        }
+        <span class="hljs-keyword">return</span> graph;
+    }
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Pair</span> </span>{
+        <span class="hljs-keyword">int</span> id;
+        <span class="hljs-keyword">int</span> cost;
+
+        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Pair</span> <span class="hljs-params">(<span class="hljs-keyword">int</span> id, <span class="hljs-keyword">int</span> cost)</span> </span>{
+            <span class="hljs-keyword">this</span>.id = id;
+            <span class="hljs-keyword">this</span>.cost = cost;
+        }
+    }
+}
+</code></pre>
+<h4 id="version-2">Version 2</h4>
+<p>dist array</p>
+<pre><code class="lang-java">
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">networkDelayTime</span><span class="hljs-params">(<span class="hljs-keyword">int</span>[][] times, <span class="hljs-keyword">int</span> N, <span class="hljs-keyword">int</span> K)</span> </span>{
+        <span class="hljs-comment">// construct graph</span>
+        <span class="hljs-comment">// key: u, value: Pair (v, cost)</span>
+        Map&lt;Integer, List&lt;Pair&gt;&gt; graph = constructGraph(times, N);
+
+        <span class="hljs-comment">// init minHeap &amp; visited nodes set</span>
+        Queue&lt;Pair&gt; minHeap = <span class="hljs-keyword">new</span> PriorityQueue&lt;&gt;((p1, p2) -&gt; {
+            <span class="hljs-keyword">return</span> p1.cost - p2.cost;
+        });
+        minHeap.offer(<span class="hljs-keyword">new</span> Pair(K, <span class="hljs-number">0</span>));
+        <span class="hljs-keyword">int</span>[] dist = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[N + <span class="hljs-number">1</span>];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+
+        <span class="hljs-comment">// visit every node in the graph</span>
+        <span class="hljs-comment">// every time a node is popped up, the cost (from source to this node) is </span>
+        <span class="hljs-comment">// the shortest path for this node</span>
+        <span class="hljs-keyword">int</span> maxTime = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">while</span> (!minHeap.isEmpty()) {
+            Pair cur = minHeap.poll();
+            <span class="hljs-comment">// the dist has been updated</span>
+            <span class="hljs-keyword">if</span> (dist[cur.id] != Integer.MAX_VALUE) <span class="hljs-keyword">continue</span>;
+            dist[cur.id] = cur.cost;
+            maxTime = cur.cost;
+
+            <span class="hljs-keyword">for</span> (Pair next : graph.get(cur.id)) {
+                <span class="hljs-comment">// visited.contains(next.id) means</span>
+                <span class="hljs-comment">// the shortest dist from K to next is calculated</span>
+                <span class="hljs-keyword">if</span> (dist[next.id] != Integer.MAX_VALUE) <span class="hljs-keyword">continue</span>;
+                minHeap.offer(<span class="hljs-keyword">new</span> Pair(next.id, cur.cost + next.cost));
+            }
+        }
+
+        <span class="hljs-keyword">return</span> Arrays.stream(dist)
+                    .filter(d -&gt; d == Integer.MAX_VALUE)
+                    .count() == <span class="hljs-number">1</span> ? maxTime : -<span class="hljs-number">1</span>;
+    }
+</code></pre>
  <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css"> <script>     window.klipse_settings = {         selector: ".language-klipse, .lang-eval-clojure",         selector_eval_js: ".lang-eval-js",         selector_eval_python_client: ".lang-eval-python",         selector_eval_php: ".lang-eval-php",         selector_eval_scheme: ".lang-eval-scheme",         selector_eval_ruby: ".lang-eval-ruby",         selector_reagent: ".lang-reagent",        selector_google_charts: ".lang-google-chart",        selector_es2017: ".lang-eval-es2017",        selector_jsx: ".lang-eval-jsx",        selector_transpile_jsx: ".lang-transpile-jsx",        selector_render_jsx: ".lang-render-jsx",        selector_react: ".lang-react",        selector_eval_markdown: ".lang-render-markdown",        selector_eval_lambdaway: ".lang-render-lambdaway",        selector_eval_cpp: ".lang-eval-cpp",        selector_eval_html: ".lang-render-html",        selector_sql: ".lang-eval-sql",        selector_brainfuck: "lang-eval-brainfuck",        selector_js: ".lang-transpile-cljs"    }; </script> <script src="https://storage.googleapis.com/app.klipse.tech/plugin/js/klipse_plugin.js"></script>
                                 
                                 </section>
@@ -412,12 +511,12 @@
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Shortest Path">
+                <a href="1368. Minimum Cost to Make at Least One Valid Path in a Grid.html" class="navigation navigation-prev " aria-label="Previous page: 1368. Minimum Cost to Make at Least One Valid Path in a Grid">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../../Heap/" class="navigation navigation-next " aria-label="Next page: Heap">
+                <a href="../../DFS/" class="navigation navigation-next " aria-label="Next page: DFS">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -428,7 +527,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"dfsd","level":"1.5.1","depth":2,"next":{"title":"Heap","level":"1.6","depth":1,"path":"Heap/README.md","ref":"Heap/README.md","articles":[]},"previous":{"title":"Shortest Path","level":"1.5","depth":1,"path":"DFS/Shortest Path/README.md","ref":"DFS/Shortest Path/README.md","articles":[{"title":"dfsd","level":"1.5.1","depth":2,"path":"DFS/Shortest Path/dfsd.md","ref":"DFS/Shortest Path/dfsd.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["github","theme-comscore","summary","chapter-fold","hide-element","back-to-top-button","code","splitter","-lunr","-search","search-pro","pageview-count","klipse"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"github":{"url":"https://github.com/chen-star/Alex-Leetcode-Journey"},"summary":{},"splitter":{},"search-pro":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"back-to-top-button":{},"pageview-count":{},"klipse":{"myConfigKey":"it's the default value"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Alex Chen","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bookname":"Alex LeetCode Journey","variables":{},"title":"Alex LeetCode Journey","gitbook":"*","description":"Alex LeetCode Journey"},"file":{"path":"DFS/Shortest Path/dfsd.md","mtime":"2020-08-02T01:56:01.585Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-02T01:56:04.597Z"},"basePath":"../..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"743. Network Delay Time","level":"1.3.3","depth":2,"next":{"title":"DFS","level":"1.4","depth":1,"path":"DFS/README.md","ref":"DFS/README.md","articles":[]},"previous":{"title":"1368. Minimum Cost to Make at Least One Valid Path in a Grid","level":"1.3.2","depth":2,"path":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","ref":"BFS/Shortest Path/1368. Minimum Cost to Make at Least One Valid Path in a Grid.md","articles":[]},"dir":"ltr"},"config":{"plugins":["github","theme-comscore","summary","chapter-fold","hide-element","back-to-top-button","code","splitter","-lunr","-search","search-pro","pageview-count","klipse"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"chapter-fold":{},"github":{"url":"https://github.com/chen-star/Alex-Leetcode-Journey"},"summary":{},"splitter":{},"search-pro":{},"code":{"copyButtons":true},"hide-element":{"elements":[".gitbook-link"]},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"theme-comscore":{},"back-to-top-button":{},"pageview-count":{},"klipse":{"myConfigKey":"it's the default value"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Alex Chen","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"bookname":"Alex LeetCode Journey","variables":{},"title":"Alex LeetCode Journey","gitbook":"*","description":"Alex LeetCode Journey"},"file":{"path":"BFS/Shortest Path/743. Network Delay Time.md","mtime":"2020-07-26T20:56:42.108Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-02T01:56:04.597Z"},"basePath":"../..","book":{"language":""}});
         });
     </script>
 </div>
